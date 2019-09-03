@@ -8,10 +8,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.newufosightings.model.Model;
+import it.polito.tdp.newufosightings.model.StatePese;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -49,6 +49,40 @@ public class NewUfoSightingsController {
 	@FXML
 	void doCreaGrafo(ActionEvent event) {
 
+		int anno;
+    	
+    	try {
+    		anno =Integer.parseInt(txtAnno.getText());
+    	}catch(NumberFormatException e) {
+    		txtResult.appendText("Scegli un numero");
+    		return;
+    	}
+    	
+    	if ( anno < 1906 || anno > 2014 ) {
+    		txtResult.appendText("Scegli un numero tra 1906 e 2014");
+    		return;
+    	}
+   
+    	int giorni;
+        	
+        	try {
+        		giorni =Integer.parseInt(txtxG.getText());
+        	}catch(NumberFormatException e) {
+        		txtResult.appendText("Scegli un numero");
+        		return;
+        	}
+        	if ( giorni < 1 || giorni > 180 ) {
+        		txtResult.appendText("Scegli un numero tra 1906 e 2014");
+        		return;	
+        	}
+    		this.model.creaGrafo(anno,giorni);
+    		txtResult.appendText("Grafo creato!"+"\n");
+    		txtResult.appendText("Con #vertici: "+model.getGrafo().vertexSet().size()+"\n");
+    		txtResult.appendText("E #archi: "+model.getGrafo().edgeSet().size());
+    		
+    		for(StatePese s : model.getVicini()){
+    			txtResult.appendText("\n"+s.getS().getName()+" "+s.getPesoTot());
+    	}
 	}
 
 	@FXML
